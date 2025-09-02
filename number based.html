@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Number Base Converter</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f7f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #e9f5e9;
+      border: 1px solid #b2e2b2;
+      color: #2f6b2f;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Number Base Converter</h2>
+    <label for="number">Enter Number:</label>
+    <input type="text" id="number" placeholder="e.g. 1010">
+
+    <label for="fromBase">From Base (2-36):</label>
+    <input type="number" id="fromBase" min="2" max="36" value="2">
+
+    <label for="toBase">To Base (2-36):</label>
+    <input type="number" id="toBase" min="2" max="36" value="10">
+
+    <button onclick="convertBase()">Convert</button>
+
+    <div class="result" id="result">Result will appear here</div>
+  </div>
+
+  <script>
+    function convertBase() {
+      const number = document.getElementById("number").value.trim();
+      const fromBase = parseInt(document.getElementById("fromBase").value);
+      const toBase = parseInt(document.getElementById("toBase").value);
+      const resultBox = document.getElementById("result");
+
+      if (
+        isNaN(fromBase) || isNaN(toBase) ||
+        fromBase < 2 || fromBase > 36 ||
+        toBase < 2 || toBase > 36
+      ) {
+        resultBox.textContent = "Please enter valid base values (2-36).";
+        resultBox.style.color = "red";
+        return;
+      }
+
+      try {
+        const decimal = parseInt(number, fromBase);
+        if (isNaN(decimal)) throw new Error("Invalid number for selected base.");
+        const converted = decimal.toString(toBase).toUpperCase();
+        resultBox.textContent = `Converted: ${converted}`;
+        resultBox.style.color = "#2f6b2f";
+      } catch (e) {
+        resultBox.textContent = e.message;
+        resultBox.style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>
